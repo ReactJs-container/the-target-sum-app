@@ -1,0 +1,32 @@
+{
+  "expo": {
+    "name": "Mad About Math",
+    "description": "A very interesting project.",
+    "slug": "mad-about-math",
+    "privacy": "public",
+    "sdkVersion": "29.0.0",
+    "platforms": ["ios", "android"],
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/appiconset/1024.png",
+    "splash": {
+      "image": "./assets/images/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "nl.madaboutmath"
+    },
+    "android": {
+      "package": "nl.madaboutmath"
+    }
+  }
+}
