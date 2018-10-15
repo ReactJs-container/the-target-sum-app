@@ -2,6 +2,8 @@ import React from 'react';
 import {
   Image,
   Platform,
+  ImageBackground,
+  TouchableOpacity,
   ScrollView,
   StyleSheet,
   View,
@@ -21,16 +23,20 @@ export default class HomeScreen extends React.Component {
   };
 
   render() {
+    const justClouds = require("../assets/images/CloudsBackground.png");
+    const backArrow = require("../assets/images/BackArrow.png");
+    const mathLogo = require("../assets/images/math-logo.png");
     return (
-      <View style={styles.container}>
-        <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-          <View style={styles.welcomeContainer}>
-            <Image
-              source={require('../assets/images/math-logo.png')}
-              style={styles.welcomeImage}
-            />
+      <ImageBackground source={justClouds} style={styles.MainContainer}>
+        <ScrollView contentContainerStyle={styles.contentContainer}>
+          <View style={styles.gobackContainer}> 
+            <TouchableOpacity  onPress={() => this.props.navigation.navigate('Welcome') }>
+              <Image style={styles.backArrow} source={backArrow} />
+            </TouchableOpacity>
           </View>
-          <View>
+          <View style={styles.logoContainer}>
+            <Image source={mathLogo} style={styles.logoImage} />
+          </View>
             <Game
               key={this.state.gameId}
               autoPlay={this.state.gameId > 1}
@@ -40,19 +46,18 @@ export default class HomeScreen extends React.Component {
               initialSeconds={15}
               onPlayAgain={this.resetGame}
             />
-          </View>
-
         </ScrollView>
-      </View>
+      </ImageBackground>
     );
   }
-
 }
 
 const styles = StyleSheet.create({
-  container: {
+  MainContainer: {
     flex: 1,
-    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingTop: ( Platform.OS === 'ios' ) ? 20 : 0,
   },
   developmentModeText: {
     marginBottom: 20,
@@ -62,14 +67,15 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   contentContainer: {
+    flex: 1,
     paddingTop: 30,
   },
-  welcomeContainer: {
+  logoContainer: {
     alignItems: 'center',
     marginTop: 10,
     marginBottom: 20,
   },
-  welcomeImage: {
+  logoImage: {
     width: 100,
     height: 80,
     resizeMode: 'contain',
@@ -136,4 +142,13 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#2e78b7',
   },
+  gobackContainer: {
+    position: 'absolute',
+    top: 15,
+    left: 10,
+  },
+  backArrow:{
+    width: 40,
+    height: 40,
+  }
 });

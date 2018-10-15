@@ -1,8 +1,16 @@
 import React from 'react';
-import { Platform, StatusBar, StyleSheet, View } from 'react-native';
+import { 
+  Platform, 
+  StatusBar,
+  View, 
+  StyleSheet, 
+  Dimensions,
+  ImageBackground 
+} from 'react-native';
 import { AppLoading, Asset, Font, Icon } from 'expo';
-import HomeScreen from './screens/HomeScreen'
 
+import HomeScreen from './screens/HomeScreen'
+import AppNavigator from './navigation/AppNavigator'
 
 export default class App extends React.Component {
   state = {
@@ -20,9 +28,9 @@ export default class App extends React.Component {
       );
     } else {
       return (
-        <View style={styles.container}>
+        <View style={styles.backGroundImage}>
           {Platform.OS === 'ios' && <StatusBar barStyle="default"/>}
-          <HomeScreen/>
+          <AppNavigator />
         </View>
       );
     }
@@ -31,7 +39,10 @@ export default class App extends React.Component {
   _loadResourcesAsync = async () => {
     return Promise.all([
       Asset.loadAsync([
-        require('./assets/images/math-logo.png')
+        require('./assets/images/math-logo.png'),
+        require("./assets/images/CloudsBackground.png"),
+        require("./assets/images/PlayButton.png"),
+        require("./assets/images/BackArrow.png")
       ]),
       Font.loadAsync({
         // This is the font that we are using for our tab bar
@@ -50,9 +61,14 @@ export default class App extends React.Component {
   };
 }
 
+
+
+let Window = Dimensions.get("window");
+let windowWidth = Window.width;
+let windowHeight = Window.height;
+
 const styles = StyleSheet.create({
-  container: {
+  backGroundImage: {
     flex: 1,
-    backgroundColor: '#fff',
   },
 });

@@ -32,7 +32,7 @@ export default class RandomNumber extends Component {
   render() {
     return (
       <TouchableOpacity onPress={this.handlePress}>
-          <View elevation={5} onPress={this.handlePress} style={styles.buttonContainer}>
+          <View onPress={this.handlePress} style={styles.buttonContainer}>
             <Text style={[styles.textStyle, this.props.isDisabled && styles.disabled]}>{this.props.number}</Text>
         </View>
       </TouchableOpacity>
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     width: 100,
     marginHorizontal: 15,
     marginVertical: 25,
-    backgroundColor: '#2E9298',
+    // backgroundColor: '#2E9298',
     borderRadius: 10,
     padding: 10,
     shadowColor: '#000000',
@@ -59,9 +59,9 @@ const styles = StyleSheet.create({
   textStyle: {
     textAlign: 'center',
     fontSize: 35,
-    color: '#FFFFFF'
+    color: '#aaa'
   },
   disabled: {
-    opacity: 0.4
+    opacity: 0.7
   }
 });

@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Button, Text } from 'react-native';
+import { View, StyleSheet, Button, Text, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 import RandomNumber from './RandomNumber';
+import CountdownCircle from '../countdownCircle'
+import Timer from '../Timekeeper';
 import _ from 'lodash';
 
 const randomNumberBetween = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
@@ -45,8 +47,7 @@ class Game extends Component {
     this.setState({ gameStatus: 'PLAYING' }, () => {
       this.intervalId = setInterval(() => {
         this.setState(prevState => {
-          const NEWRemainingSeconds =
-            prevState.remainingSeconds - 1;
+          const NEWRemainingSeconds = prevState.remainingSeconds - 1;
           if (NEWRemainingSeconds === 0) {
             clearInterval(this.intervalId);
             return { gameStatus: 'LOST', remainingSeconds: 0 };
@@ -89,46 +90,81 @@ class Game extends Component {
 
   render() {
     const { gameStatus, remainingSeconds } = this.state;
-
+console.log('selectedIds', this.challengeNumbers[this.state.selectedIds])
     return (
       <View style={styles.container}>
-        <Text style={[ styles.target, styles[ `STATUS_${gameStatus}` ] ]}>
-          {gameStatus === 'NEW' ? '?' : this.target}
-        </Text>
+        <View style={ styles.targetContainer }>
+          <Text style={[ styles.target, styles[ `STATUS_${gameStatus}` ] ]}>
+              {gameStatus === 'NEW' ? '?' : this.target}
+            </Text>
+            {
+              (gameStatus !== 'NEW') && (
+               /*  <CountdownCircle
+                  seconds={remainingSeconds}
+                  radius={30}
+                  borderWidth={16}
+                  color={(gameStatus === 'LOST') ? "#ff003f" : "#41ee70"}
+                  bgColor="#fff"
+                  stop = {(gameStatus === 'LOST') ? "LOST" : "WON"}
+                  textStyle={{ fontSize: 20 }}
+                  onTimeElapsed={() => console.log('Elapsed!')}
+                /> */
+                <Timer
+                  beat={(gameStatus === 'LOST') ? false : true}
+                  seconds={15}
+                  radius={30}
+                  borderWidth={6}
+                  color="#C52957"
+                  bgColor="#DE537C"
+                  bgColorSecondary="#E495AC"
+                  bgColorThirt="#EFD6DE"
+                  shadowColor="#DE537C"
+                  textStyle={{ fontSize: 20, color: '#FFF', }}
+                  subTextStyle={{ fontSize: 12, color: '#FFF', }}
+                  onTimeElapsed={() => {console.log('Time elapsed')} }
+                  isPausable={true}
+                  onPause={() => console.log('Pause')}
+                  onResume={() => console.log('Resume')}
+                  minScale={0.9}
+                  maxScale={1.2}
+                />
+              )
+            }
 
-        <View style={styles.randomContainer}>
-          {this.challengeNumbers.map((randomNum, i) =>
-            <RandomNumber
-              key={i}
-              id={i}
-              number={gameStatus === 'NEW' ? '?' : randomNum}
-              isDisabled={this.isNumberSelected(i) || gameStatus !== 'PLAYING'}
-              onPress={this.selectedNumber}/>
-          )}
         </View>
-        <View style={styles.buttonContainer}>
-        {(gameStatus === 'NEW') ? (
-            <Button title="Start Game" style={{
-              backgroundColor: "rgba(92, 99,216, 1)",
-              width: 300,
-              height: 45,
-              borderColor: "#eee",
-              borderWidth: 1,
-              borderRadius: 5
-            }} onPress={this.startGame}/>
-        ) : (
-          <Text>{remainingSeconds} seconds</Text>
-        )}
-        {(gameStatus === 'LOST' || gameStatus === 'WON') && (
-
-            <Button title="Play Again" style={{backgroundColor: "rgba(92, 99,216, 2)",
-              width: 300,
-              height: 45,
-              borderColor: "transparent",
-              borderWidth: 0,
-              borderRadius: 5}} onPress={this.props.onPlayAgain}/>
-
-        )}
+        <View style={{flexDirection: 'row', height: 60, justifyContent: 'center', alignItems: 'center'}}>
+          <View style={styles.selectedNumber} ><Text style={styles.title}> ? </Text></View>
+          <View style={{width: 30, height: 50, justifyContent: 'center', alignItems: 'center'}}><Text> + </Text></View>
+          <View style={styles.selectedNumber} > <Text style={styles.title}> ? </Text></View>
+          <View style={{width: 30, height: 50, justifyContent: 'center', alignItems: 'center'}}><Text> + </Text></View>
+          <View style={styles.selectedNumber} ><Text style={styles.title}> ? </Text></View>
+          <View style={{width: 30, height: 50, justifyContent: 'center', alignItems: 'center'}}><Text> = </Text></View>
+        </View>
+        <View style={styles.randomContainer}>
+            {this.challengeNumbers.map((randomNum, i) =>
+              <RandomNumber
+                key={i}
+                id={i}
+                number={gameStatus === 'NEW' ? '?' : randomNum}
+                isDisabled={this.isNumberSelected(i) || gameStatus !== 'PLAYING'}
+                onPress={this.selectedNumber}/>
+            )}
+        </View>
+        <View style={styles.buttonsWrapper}>
+            {(gameStatus === 'NEW') && (
+                        <TouchableOpacity onPress={this.startGame}>
+                        <View style={styles.buttonContainer}>
+                          <Text style={styles.textStyle}>START GAME</Text>
+                        </View>
+                        </TouchableOpacity>
+            )}
+            {(gameStatus === 'LOST' || gameStatus === 'WON') && (
+              <TouchableOpacity onPress={this.props.onPlayAgain}>
+              <View style={styles.buttonContainer}>
+                <Text style={styles.textStyle}>PLAY AGAIN</Text>
+              </View>
+              </TouchableOpacity>
+            )}
         </View>
       </View>
     );
@@ -143,42 +179,82 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center'
   },
-  buttonContainer: {
+  buttonsWrapper:{
     flex: 1,
-    alignItems: 'center',
-    marginTop: 10,
-    marginBottom: 20,
+    position: 'absolute',
+    bottom: 0,
+    width: '100%', 
   },
+  buttonContainer: {
+    marginHorizontal: 0,
+    backgroundColor: '#F64A81',
+    padding: 10,
+    height: 100, 
+  },
+  textStyle: {
+    textAlign: 'center',
+    fontSize: 25,
+    color: '#FFFFFF'
+  },
+
   button: {
     backgroundColor: "#FFDBA6",
-    width: 300,
     height: 45,
     borderColor: "transparent",
     borderWidth: 0,
-    borderRadius: 5
+    borderRadius: 15
+  },
+  selectedNumber: {
+    justifyContent: 'center', 
+    alignItems: 'center',
+    borderRadius: 4,
+    borderWidth: 0.5,
+    borderColor: '#666666',
+    borderStyle: "dashed",
+    width: 50, 
+    height: 50
+  },
+  title: {
+    textAlign: 'center',
+    fontSize: 19,
+    fontWeight: 'bold',
+  },
+  targetContainer:{
+    height: 100,
+    borderRadius: 5,
+    margin: 50,
+    marginLeft: 15,
+    marginRight: 15,
   },
   target: {
-    fontSize: 50,
-    margin: 50,
-    textAlign: 'center'
+    fontSize: 80,
+    textAlign: 'center',
+    height: 100,
   },
   randomContainer: {
-    flex: 1,
+    flex:1,
+    //backgroundColor: '#3369FC',
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-around',
+    marginBottom: 30
   },
   STATUS_NEW: {
-    backgroundColor: '#aaa'
+    // backgroundColor: '#aaa'
+    color: '#aaa'
   },
   STATUS_PLAYING: {
-    backgroundColor: '#aaa'
+    //backgroundColor: '#aaa'
+    color: '#aaa'
   },
   STATUS_WON: {
-    backgroundColor: "#41ee70"
+    //backgroundColor: "#41ee70"
+    color: "#41ee70"
+    
   },
   STATUS_LOST: {
-    backgroundColor: 'red'
+    //backgroundColor: 'red'
+    color: 'red'
   },
 
 });
