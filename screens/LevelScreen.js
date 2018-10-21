@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
-import { ScrollView, StyleSheet, View, Text, Button } from 'react-native';
-import PropTypes from 'prop-types';
+import { 
+  StyleSheet, 
+  View, 
+  Button, 
+  ImageBackground, 
+  Image, 
+  Platform, } from 'react-native';
 
 class LevelScreen extends Component {
   constructor(props) {
@@ -8,10 +13,16 @@ class LevelScreen extends Component {
   }
 
   render() {
+
+    const justClouds = require("../assets/images/CloudsBackground.png");
+    const mathLogo = require('../assets/images/math-logo.png');
+    
     return (
-      <ScrollView style={styles.container}>
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Level Screen</Text>
+      <ImageBackground source={justClouds} style={styles.MainContainer}>
+        <View style={styles.logoContainer}>
+          <Image source={mathLogo} style={styles.logoImage} />
+        </View>
+        <View style={styles.contentContainer}> 
         <Button
           title="Easy"
           onPress={() => {
@@ -36,23 +47,43 @@ class LevelScreen extends Component {
           });
         }}
       />
+        </View>
 
-      </View>
-      </ScrollView>
+    </ImageBackground>
     );
   }
 }
 const styles = StyleSheet.create({
-  container: {
+  MainContainer: {
     flex: 1,
-    paddingTop: 15,
-    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingTop: ( Platform.OS === 'ios' ) ? 20 : 0,
+    
+  },
+  contentContainer: {
+    flex: 1,
+    paddingTop: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  logoContainer: {
+    alignItems: 'center',
+    marginTop: 10,
+    marginBottom: 20,
+  },
+  logoImage: {
+    width: 100,
+    height: 80,
+    resizeMode: 'contain',
+    marginTop: 3,
+    marginLeft: -10,
+  },
+  playButton: {
+    alignItems: 'center',
+    width: 130,
+    height: 150,
   },
 });
-
-LevelScreen.propTypes = {
-
-};
-
 
 export default LevelScreen;

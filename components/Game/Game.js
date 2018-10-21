@@ -12,7 +12,6 @@ import {
 
 import PropTypes from 'prop-types';
 import RandomNumber from './RandomNumber';
-import CountdownCircle from '../countdownCircle'
 import Timer from '../Timekeeper';
 import _ from 'lodash';
 
@@ -125,7 +124,7 @@ class Game extends Component {
           <View style={styles.selectedNumber}>
             <Text style={styles.title}> {gameStatus === 'NEW' ? '?' : this.challengeNumbers[selectedIds[i]]} </Text>
           </View>
-          <View style={{width: 30, height: 50, justifyContent: 'center', alignItems: 'center'}}>
+          <View style={{width: 30, height: 30, justifyContent: 'center', alignItems: 'center'}}>
           <Text> {(this.props.answerSize -1  === i) ? '=' : '+'} </Text></View>
           {
             (this.props.answerSize -1  === i) && (
@@ -155,7 +154,7 @@ class Game extends Component {
           >
           <View style={styles.modalContainer}>
             <View style={styles.modal}>
-            <View style={{height: 32, width:32, position: 'absolute', top: -7, right:0}} >
+            <View style={{height: 32, width:32, position: 'absolute', top: -7, right:-3}} >
                 <TouchableOpacity onPress={() => {
                       this.setModalVisible(!this.state.modalVisible);
                     }}>
@@ -164,6 +163,11 @@ class Game extends Component {
               </View>
               <View style={{height: 50, justifyContent: 'center', alignItems: 'center'}}>
               <Text style={{ fontFamily: 'concert-one', fontSize: 16 }}>{gameStatus}</Text>
+              </View>
+              <View style={styles.selectedAnswerContainer}>
+              {
+                this.selectedAnswer()
+              }
               </View>
     
             </View>
@@ -314,6 +318,12 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     height: 100,
     color: '#aaa'
+  },
+  selectedAnswerContainer: {
+    flexDirection: 'row', 
+    height: 60, 
+    justifyContent: 'center', 
+    alignItems: 'center'
   },
   targetContainer: {
     width: 120,
