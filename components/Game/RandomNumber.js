@@ -42,21 +42,28 @@ export default class RandomNumber extends Component {
 
 const styles = StyleSheet.create({
   buttonContainer: {
-    width: 100,
+    width: 80,
+    height:80,
     marginHorizontal: 15,
     marginVertical: 25,
-    // backgroundColor: '#2E9298',
-    borderRadius: 10,
-    padding: 10,
-    shadowColor: '#000000',
-    shadowOffset: {
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 50,
+    //padding: 10,
+    /* borderWidth: 2,
+    borderStyle: 'solid',
+    borderColor:'yellow' */
+    shadowColor: '#aaa',
+   shadowOffset: {
       width: 0,
-      height: 3
+      height: 1
     },
-    shadowRadius: 5,
-    shadowOpacity: 1.0
+   shadowRadius: 1,
+    shadowOpacity: 0.75
   },
   textStyle: {
+    fontFamily: 'concert-one',
     textAlign: 'center',
     fontSize: 35,
     color: '#aaa'

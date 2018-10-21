@@ -5,9 +5,11 @@ import {createStackNavigator, createSwitchNavigator} from 'react-navigation';
 // import MainTabNavigator from './MainTabNavigator';
 import HomeScreen from '../screens/HomeScreen';
 import WelcomeScreen from '../screens/WelcomeScreen';
+import LevelScreen from '../screens/LevelScreen';
 
 const AppNavigator = createStackNavigator({
   Welcome:  { screen:WelcomeScreen },
+  Level:  { screen:LevelScreen },
   Home:  { screen:HomeScreen }
 },
 {

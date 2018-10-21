@@ -32,7 +32,7 @@ class WelcomeScreen extends Component {
           <Image source={mathLogo} style={styles.logoImage} />
         </View>
         <View style={styles.contentContainer}> 
-          <TouchableOpacity  onPress={() => this.props.navigation.navigate('Home') }>
+          <TouchableOpacity  onPress={() => this.props.navigation.navigate('Level') }>
             <Image style={styles.playButton} source={playButton} />
         </TouchableOpacity>
         </View>

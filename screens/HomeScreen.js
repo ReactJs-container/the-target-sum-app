@@ -9,7 +9,9 @@ import {
   View,
 } from 'react-native';
 import Game from '../components/Game/Game';
-
+const justClouds = require("../assets/images/CloudsBackground.png");
+const backArrow = require("../assets/images/BackArrow.png");
+const mathLogo = require("../assets/images/math-logo.png");
 export default class HomeScreen extends React.Component {
 
   state = {
@@ -23,14 +25,15 @@ export default class HomeScreen extends React.Component {
   };
 
   render() {
-    const justClouds = require("../assets/images/CloudsBackground.png");
-    const backArrow = require("../assets/images/BackArrow.png");
-    const mathLogo = require("../assets/images/math-logo.png");
+        /* 2. Get the param, provide a fallback value if not available */
+        const { navigation } = this.props;
+        const answerSize = navigation.getParam('answerSize', 'NO-ID');
+
     return (
       <ImageBackground source={justClouds} style={styles.MainContainer}>
         <ScrollView contentContainerStyle={styles.contentContainer}>
           <View style={styles.gobackContainer}> 
-            <TouchableOpacity  onPress={() => this.props.navigation.navigate('Welcome') }>
+            <TouchableOpacity  onPress={() => this.props.navigation.navigate('Level') }>
               <Image style={styles.backArrow} source={backArrow} />
             </TouchableOpacity>
           </View>
@@ -42,7 +45,8 @@ export default class HomeScreen extends React.Component {
               autoPlay={this.state.gameId > 1}
               challengeRange={[ 2, 9 ]}
               challengeSize={6}
-              answerSize={4}
+              //answerSize={4}
+              answerSize={answerSize}
               initialSeconds={15}
               onPlayAgain={this.resetGame}
             />
@@ -144,11 +148,11 @@ const styles = StyleSheet.create({
   },
   gobackContainer: {
     position: 'absolute',
-    top: 15,
+    top: 30,
     left: 10,
   },
   backArrow:{
-    width: 40,
-    height: 40,
+    width: 30,
+    height: 30,
   }
 });
